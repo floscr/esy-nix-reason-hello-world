@@ -1,0 +1,89 @@
+* Notes
+
+Everything kind of works, except releasing a package.
+
+- Nix-Esy from https://github.com/kamilchm/nix-esy
+- Hello Reason from https://github.com/esy-ocaml/hello-reason
+- Nix Shell from https://github.com/BenSchZA/nix-shells/blob/master/esy-shell.nix
+
+** Build esy
+
+*** 1. Build esy for nix
+
+#+BEGIN_SRC bash
+cd nix-esy
+nix-build -E "with import <nixpkgs> {}; callPackage ./default.nix {}"
+#+END_SRC
+
+*** 2. Add bin dir to your path
+
+#+BEGIN_SRC bash
+PATH=$PATH:ABS_PATH_TO_DIR/nix-esy/result/bin
+#+END_SRC
+
+*** 3. Enter nix shell
+
+#+BEGIN_SRC bash
+cd hello-reason
+nix-shell
+#+END_SRC
+
+*** 3. Build hello reason
+
+#+BEGIN_SRC bash
+esy install
+esy x Hello
+#+END_SRC
+
+** Issues
+
+Packaging does not work yet for some reason, the build fails without an error.
+
+#+BEGIN_EXAMPLE
+info npm-release 0.5.8-0.5.8 (using package.json)
+info Creating npm release
+info Building packages
+info Exporting built packages
+info Skipping refmterr@3.2.2
+info Skipping ocaml@4.8.1000
+info Exporting hello_reason-b49ba097
+info Skipping @reason-native/rely@3.1.0
+info Skipping @reason-native/pastel@0.2.1
+info Skipping @reason-native/file-context-printer@0.0.3
+info Skipping @reason-native/console@0.1.0
+info Skipping @opam/yojson@opam:1.7.0
+info Skipping @opam/uutf@opam:1.0.2
+info Skipping @opam/uchar@opam:0.0.2
+info Skipping @opam/tyxml@opam:4.3.0
+info Skipping @opam/topkg@opam:1.0.1
+info Skipping @opam/seq@opam:base
+info Skipping @opam/result@opam:1.4
+info Skipping @opam/re@opam:1.9.0
+info Skipping @opam/ptime@opam:0.8.5
+info Skipping @opam/ppx_derivers@opam:1.2.1
+info Skipping @opam/ocamlfind@opam:1.8.1
+info Skipping @opam/ocamlbuild@opam:0.14.0
+info Skipping @opam/ocaml-migrate-parsetree@opam:1.4.0
+info Skipping @opam/merlin-extend@opam:0.5
+info Skipping @opam/menhir@opam:20190924
+info Skipping @opam/junit@opam:2.0.1
+info Skipping @opam/jbuilder@opam:transition
+info Skipping @opam/easy-format@opam:1.3.2
+info Skipping @opam/dune@opam:1.11.4
+info Skipping @opam/cppo@opam:1.6.6
+info Skipping @opam/conf-m4@opam:1
+info Skipping @opam/cmdliner@opam:1.0.4
+info Skipping @opam/biniou@opam:1.2.1
+info Skipping @opam/base-unix@opam:base
+info Skipping @opam/base-threads@opam:base
+info Skipping @opam/atdgen-runtime@opam:2.0.0
+info Skipping @opam/atdgen@opam:2.0.0
+info Skipping @opam/atd@opam:2.0.0
+info Skipping @esy-ocaml/substs@0.0.1
+info Skipping @esy-ocaml/reason@3.5.2
+info Exporting hello_reason-b49ba097: done
+info Configuring release
+error: Invalid argument
+
+esy: exiting due to errors above
+#+END_EXAMPLE
